@@ -21,6 +21,7 @@
         <service
                 id="messenger_application.query.bus"
                 class="CptBurke\Application\SymfonyMessenger\Query\InMemoryMessengerQueryBus"
+                public="true"
         >
             <argument type="service" id="message_application.query.internal_bus"/>
         </service>
@@ -38,21 +39,24 @@
         <service
                 id="messenger_application.domain_event.bus"
                 class="CptBurke\Application\SymfonyMessenger\Domain\InMemoryMessengerDomainEventBus"
+                public="true"
         >
             <argument type="service" id="message_application.domain_event.internal_bus"/>
         </service>
         <service
                 id="messenger_application.command.bus"
                 class="CptBurke\Application\SymfonyMessenger\Domain\MessengerCommandBus"
+                public="true"
         />
         <service
                 id="messenger_application.application_event.bus"
                 class="CptBurke\Application\SymfonyMessenger\Event\MessengerApplicationEventBus"
+                public="true"
         />
 
-        <service id="CptBurke\Application\Query\QueryBus" alias="messenger_application.query.bus"/>
-        <service id="CptBurke\Application\Command\CommandBus" alias="messenger_application.command.bus"/>
-        <service id="CptBurke\Application\Domain\DomainEventBus" alias="messenger_application.domain_event.bus"/>
-        <service id="CptBurke\Application\Event\ApplicationEventBus" alias="messenger_application.application_event.bus"/>
+        <service id="CptBurke\Application\Query\QueryBus" alias="messenger_application.query.bus" public="true"/>
+        <service id="CptBurke\Application\Command\CommandBus" alias="messenger_application.command.bus" public="true"/>
+        <service id="CptBurke\Application\Domain\DomainEventBus" alias="messenger_application.domain_event.bus" public="true"/>
+        <service id="CptBurke\Application\Event\ApplicationEventBus" alias="messenger_application.application_event.bus" public="true"/>
     </services>
 </container>
