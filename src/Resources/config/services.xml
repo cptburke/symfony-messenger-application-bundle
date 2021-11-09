@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+                               https://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+    <services>
+        <service id="CptBurke\Application\Reflection\CallableExtractor"/>
+        <service id="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory" shared="false"/>
+
+        <service
+                id="messenger_application.query.internal_bus"
+                class="Symfony\Component\Messenger\MessageBus"
+        >
+            <factory
+                    service="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory"
+                    method="createCallablesStack"
+            />
+            <argument key="$callables" type="tagged_iterator" tag="message_application.query.handler"/>
+        </service>
+        <service
+                id="messenger_application.query.bus"
+                class="CptBurke\Application\SymfonyMessenger\Query\InMemoryMessengerQueryBus"
+        >
+            <argument type="service" id="message_application.query.internal_bus"/>
+        </service>
+
+        <service
+                id="messenger_application.domain_event.internal_bus"
+                class="Symfony\Component\Messenger\MessageBus"
+        >
+            <factory
+                    service="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory"
+                    method="createCallablesStack"
+            />
+            <argument key="$callables" type="tagged_iterator" tag="message_application.domain_event.subscriber"/>
+        </service>
+        <service
+                id="messenger_application.domain_event.bus"
+                class="CptBurke\Application\SymfonyMessenger\Domain\InMemoryMessengerDomainEventBus"
+        >
+            <argument type="service" id="message_application.domain_event.internal_bus"/>
+        </service>
+        <service
+                id="messenger_application.command.bus"
+                class="CptBurke\Application\SymfonyMessenger\Domain\MessengerCommandBus"
+        />
+        <service
+                id="messenger_application.application_event.bus"
+                class="CptBurke\Application\SymfonyMessenger\Event\MessengerApplicationEventBus"
+        />
+    </services>
+</container>

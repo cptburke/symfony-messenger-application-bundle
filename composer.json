@@ -1,0 +1,33 @@
+{
+    "name": "cptburke/symfony-messenger-application-bundle",
+    "description": "bundle to use symfony-messenger-application (query, command, event, ...) in your symfony application",
+    "type": "symfony-bundle",
+    "license": "mit",
+    "authors": [
+        {
+            "name": "cptburke",
+            "email": "p.burmann@gmx.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "CptBurke\\Application\\SymfonyMessengerBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\CptBurke\\Application\\SymfonyMessengerBundle\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "cptburke/symfony-messenger-application": "^0.1.0",
+        "symfony/config": "^5.3",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/http-kernel": "^5.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/test-pack": "^1.0"
+    }
+}
