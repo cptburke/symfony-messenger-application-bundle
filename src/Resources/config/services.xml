@@ -49,5 +49,10 @@
                 id="messenger_application.application_event.bus"
                 class="CptBurke\Application\SymfonyMessenger\Event\MessengerApplicationEventBus"
         />
+
+        <service id="CptBurke\Application\Query\QueryBus" alias="messenger_application.query.bus"/>
+        <service id="CptBurke\Application\Command\CommandBus" alias="messenger_application.command.bus"/>
+        <service id="CptBurke\Application\Domain\DomainEventBus" alias="messenger_application.domain_event.bus"/>
+        <service id="CptBurke\Application\Event\ApplicationEventBus" alias="messenger_application.application_event.bus"/>
     </services>
 </container>

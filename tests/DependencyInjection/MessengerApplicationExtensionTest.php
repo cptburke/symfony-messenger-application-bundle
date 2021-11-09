@@ -4,9 +4,13 @@
 namespace tests\CptBurke\Application\SymfonyMessengerBundle\DependencyInjection;
 
 
+use CptBurke\Application\Command\CommandBus;
 use CptBurke\Application\Command\CommandHandler;
+use CptBurke\Application\Domain\DomainEventBus;
 use CptBurke\Application\Domain\DomainEventSubscriber;
+use CptBurke\Application\Event\ApplicationEventBus;
 use CptBurke\Application\Event\ApplicationEventSubscriber;
+use CptBurke\Application\Query\QueryBus;
 use CptBurke\Application\Query\QueryHandler;
 use CptBurke\Application\SymfonyMessengerBundle\DependencyInjection\MessengerApplicationExtension;
 use PHPUnit\Framework\TestCase;
@@ -29,6 +33,11 @@ class MessengerApplicationExtensionTest extends TestCase
         $this->assertTrue($container->hasDefinition('messenger_application.command.bus'));
         $this->assertTrue($container->hasDefinition('messenger_application.domain_event.bus'));
         $this->assertTrue($container->hasDefinition('messenger_application.application_event.bus'));
+
+        $this->assertEquals('messenger_application.query.bus', (string)$container->getAlias(QueryBus::class));
+        $this->assertEquals('messenger_application.command.bus', (string)$container->getAlias(CommandBus::class));
+        $this->assertEquals('messenger_application.domain_event.bus', (string)$container->getAlias(DomainEventBus::class));
+        $this->assertEquals('messenger_application.application_event.bus', (string)$container->getAlias(ApplicationEventBus::class));
     }
 
     public function testInstancesAreTagged(): void
