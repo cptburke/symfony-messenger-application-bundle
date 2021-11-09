@@ -22,14 +22,40 @@ It also pre-configures several buses:
 
 The minimal configuration contains services for the command bus and the application event bus (if you want to use them in your application).
 
+
+### `config/services.yaml`
+
+```yaml
+    #...
+    
+    command.handler_middleware:
+        factory: [CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory, createCallables]
+        arguments:
+          - !tagged_iterator messenger_application.command.handler
+
+    #...
+```
+
+#### `config/packages/messenger.yaml`
+```yaml
+
+    buses:
+    #...
+      command.bus:
+        default_middleware: false
+        middleware:
+          - doctrine_transaction
+          - command.handler_middleware
+```
+
 ```yaml
 messenger_application:
 
     # service id of the configured symfony message bus
-    command_bus: 'app.async_bus'
+    command_bus: 'command.bus'
     
     # service id of the configured symfony message bus
-    application_event_bus: 'app.another_async_bus'
+    application_event_bus: 'app.async_bus'
 
     query_bus:
         # middleware before query gets handled

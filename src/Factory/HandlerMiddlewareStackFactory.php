@@ -85,4 +85,24 @@ class HandlerMiddlewareStackFactory
         ];
     }
 
+    /**
+     * @param iterable $callables
+     * @param bool $allow_no_handler
+     * @return HandleMessageMiddleware
+     * @throws HandlerException
+     * @throws ReflectionException
+     */
+    public function createCallables(
+        iterable $callables,
+        bool $allow_no_handler = false
+    ): HandleMessageMiddleware
+    {
+        return new HandleMessageMiddleware(
+            new HandlersLocator(
+                $this->extractor->fromCallables($callables)
+            ),
+            $allow_no_handler
+        );
+    }
+
 }
