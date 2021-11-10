@@ -16,14 +16,14 @@
                     service="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory"
                     method="createCallablesStack"
             />
-            <argument key="$callables" type="tagged_iterator" tag="message_application.query.handler"/>
+            <argument key="$callables" type="tagged_iterator" tag="messenger_application.query.handler"/>
         </service>
         <service
                 id="messenger_application.query.bus"
                 class="CptBurke\Application\SymfonyMessenger\Query\InMemoryMessengerQueryBus"
                 public="true"
         >
-            <argument type="service" id="message_application.query.internal_bus"/>
+            <argument type="service" id="messenger_application.query.internal_bus"/>
         </service>
 
         <service
@@ -34,14 +34,14 @@
                     service="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory"
                     method="createCallablesStack"
             />
-            <argument key="$callables" type="tagged_iterator" tag="message_application.domain_event.subscriber"/>
+            <argument key="$callables" type="tagged_iterator" tag="messenger_application.domain_event.subscriber"/>
         </service>
         <service
                 id="messenger_application.domain_event.bus"
                 class="CptBurke\Application\SymfonyMessenger\Domain\InMemoryMessengerDomainEventBus"
                 public="true"
         >
-            <argument type="service" id="message_application.domain_event.internal_bus"/>
+            <argument type="service" id="messenger_application.domain_event.internal_bus"/>
         </service>
         <service
                 id="messenger_application.command.bus"
