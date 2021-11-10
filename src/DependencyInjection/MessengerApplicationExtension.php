@@ -32,11 +32,11 @@ class MessengerApplicationExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         if (isset($config['command_bus'])) {
             $container->getDefinition('messenger_application.command.bus')
-                ->replaceArgument('$bus', new Reference($config['command_bus']));
+                ->setArgument('$bus', new Reference($config['command_bus']));
         }
         if (isset($config['application_event_bus'])) {
             $container->getDefinition('messenger_application.application_event.bus')
-                ->replaceArgument('$bus', new Reference($config['application_event_bus']));
+                ->setArgument('$bus', new Reference($config['application_event_bus']));
         }
 
         $configure_before = fn (string $service_id, array $stack, ContainerBuilder $container) =>
