@@ -5,8 +5,10 @@
                                https://symfony.com/schema/dic/services/services-1.0.xsd"
 >
     <services>
-        <service id="CptBurke\Application\Reflection\CallableExtractor"/>
-        <service id="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory" shared="false"/>
+        <service id="CptBurke\Application\Reflection\CallableExtractor" class="CptBurke\Application\Reflection\CallableExtractor"/>
+        <service id="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory" shared="false">
+            <argument type="service" id="CptBurke\Application\Reflection\CallableExtractor"/>
+        </service>
 
         <service
                 id="messenger_application.query.internal_bus"
