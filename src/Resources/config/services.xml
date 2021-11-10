@@ -45,7 +45,7 @@
         </service>
         <service
                 id="messenger_application.command.bus"
-                class="CptBurke\Application\SymfonyMessenger\Domain\MessengerCommandBus"
+                class="CptBurke\Application\SymfonyMessenger\Command\MessengerCommandBus"
                 public="true"
         />
         <service
