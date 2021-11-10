@@ -105,4 +105,23 @@ class HandlerMiddlewareStackFactory
         );
     }
 
+    /**
+     * @param iterable $subscribers
+     * @param bool $allow_no_handler
+     * @return HandleMessageMiddleware
+     * @throws Exception
+     */
+    public function createSubscribers(
+        iterable $subscribers,
+        bool $allow_no_handler = true
+    ): HandleMessageMiddleware
+    {
+        return new HandleMessageMiddleware(
+            new HandlersLocator(
+                $this->extractor->fromSubscribers($subscribers)
+            ),
+            $allow_no_handler
+        );
+    }
+
 }
