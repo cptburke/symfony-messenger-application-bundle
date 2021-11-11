@@ -9,14 +9,17 @@
         <service id="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory" shared="false">
             <argument type="service" id="CptBurke\Application\Reflection\CallableExtractor"/>
         </service>
+        <service id="CptBurke\Application\SymfonyMessengerBundle\Factory\SymfonyMessageBusFactory">
+            <argument type="service" id="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory"/>
+        </service>
 
         <service
                 id="messenger_application.query.internal_bus"
                 class="Symfony\Component\Messenger\MessageBus"
         >
             <factory
-                    service="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory"
-                    method="createCallablesStack"
+                    service="CptBurke\Application\SymfonyMessengerBundle\Factory\SymfonyMessageBusFactory"
+                    method="createCallablesBus"
             />
             <argument key="$callables" type="tagged_iterator" tag="messenger_application.query.handler"/>
         </service>
@@ -33,8 +36,8 @@
                 class="Symfony\Component\Messenger\MessageBus"
         >
             <factory
-                    service="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory"
-                    method="createCallablesStack"
+                    service="CptBurke\Application\SymfonyMessengerBundle\Factory\SymfonyMessageBusFactory"
+                    method="createSubscribersBus"
             />
             <argument key="$callables" type="tagged_iterator" tag="messenger_application.domain_event.subscriber"/>
         </service>
