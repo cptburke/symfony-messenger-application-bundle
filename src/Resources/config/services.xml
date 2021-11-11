@@ -39,7 +39,7 @@
                     service="CptBurke\Application\SymfonyMessengerBundle\Factory\SymfonyMessageBusFactory"
                     method="createSubscribersBus"
             />
-            <argument key="$callables" type="tagged_iterator" tag="messenger_application.domain_event.subscriber"/>
+            <argument key="$subscribers" type="tagged_iterator" tag="messenger_application.domain_event.subscriber"/>
         </service>
         <service
                 id="messenger_application.domain_event.bus"
