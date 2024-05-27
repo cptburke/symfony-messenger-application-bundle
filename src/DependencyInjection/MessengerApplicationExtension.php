@@ -33,9 +33,11 @@ class MessengerApplicationExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         if (isset($config['command_bus'])) {
             $container->getDefinition('messenger_application.command.bus')
-                ->setArgument('$bus', new Reference($config['command_bus']['bus']));
-            $container->getDefinition('messenger_application.command.senders')
-                ->setArgument('$locators', $config['command_bus']['senders'] ?? []);
+                ->setArgument('$bus', new Reference($config['command_bus']));
+        }
+        if (isset($config['transport'])) {
+            $container->getDefinition('messenger_application.transport.senders')
+                ->setArgument('$locators', $config['transport']['senders'] ?? []);
         }
         if (isset($config['application_event_bus'])) {
             $container->getDefinition('messenger_application.application_event.bus')

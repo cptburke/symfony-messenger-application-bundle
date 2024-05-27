@@ -19,7 +19,8 @@ class Configuration implements ConfigurationInterface
         $root->children()
             ->append($this->createDefaultsNode())
             ->append($this->createQueryNode())
-            ->append($this->createCommandNode())
+            ->scalarNode('command_bus')->end()
+            ->append($this->createTransportNode())
             ->scalarNode('application_event_bus')->end()
             ->append($this->createDomainNode())
         ;
@@ -59,12 +60,11 @@ class Configuration implements ConfigurationInterface
         return $root;
     }
 
-    public function createCommandNode(): NodeDefinition
+    public function createTransportNode(): NodeDefinition
     {
-        $tree = new TreeBuilder('command_bus');
+        $tree = new TreeBuilder('transport');
         $root = $tree->getRootNode();
         $root->children()
-            ->scalarNode('bus')->end()
             ->arrayNode('senders')
                 ->useAttributeAsKey('name')
                 ->arrayPrototype()

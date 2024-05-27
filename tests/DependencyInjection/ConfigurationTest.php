@@ -16,7 +16,8 @@ class ConfigurationTest extends TestCase
         $sut = new Configuration();
         $config = $sut->getConfigTreeBuilder()->buildTree();
         $input = [
-            'command_bus' => ['bus' => 'test', 'senders' => []],
+            'command_bus' => 'test',
+            'transport' => ['senders' => ['test' => ['test']]],
             'application_event_bus' => 'test',
             'domain_event_bus' => [ 'before_handle' => ['test_middleware'], 'after_handle' => []],
             'query_bus' => [ 'before_handle' => [], 'after_handle' => ['test_middleware']],

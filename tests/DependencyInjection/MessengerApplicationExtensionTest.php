@@ -32,13 +32,13 @@ class MessengerApplicationExtensionTest extends TestCase
 
         $this->assertTrue($container->hasDefinition('messenger_application.query.bus'));
         $this->assertTrue($container->hasDefinition('messenger_application.command.bus'));
-        $this->assertTrue($container->hasDefinition('messenger_application.command.senders'));
+        $this->assertTrue($container->hasDefinition('messenger_application.transport.senders'));
         $this->assertTrue($container->hasDefinition('messenger_application.domain_event.bus'));
         $this->assertTrue($container->hasDefinition('messenger_application.application_event.bus'));
 
         $this->assertEquals('messenger_application.query.bus', (string)$container->getAlias(QueryBus::class));
         $this->assertEquals('messenger_application.command.bus', (string)$container->getAlias(CommandBus::class));
-        $this->assertEquals(SendMessageMiddleware::class, $container->getDefinition('messenger_application.command.senders')->getClass());
+        $this->assertEquals(SendMessageMiddleware::class, $container->getDefinition('messenger_application.transport.senders')->getClass());
         $this->assertEquals('messenger_application.domain_event.bus', (string)$container->getAlias(DomainEventBus::class));
         $this->assertEquals('messenger_application.application_event.bus', (string)$container->getAlias(ApplicationEventBus::class));
     }
@@ -120,14 +120,13 @@ class MessengerApplicationExtensionTest extends TestCase
     }
 
 
-    public function testCommandBusConfig(): void
+    public function testTransportConfig(): void
     {
         $sut = new MessengerApplicationExtension();
 
         $container = new ContainerBuilder();
         $sut->load(['messenger_application' => [
-            'command_bus' => [
-                'bus' => '',
+            'transport' => [
                 'senders' => [
                     'CommandClass' => ['DbTransport'],
                 ],
@@ -136,7 +135,7 @@ class MessengerApplicationExtensionTest extends TestCase
         $this->assertEquals(
             [ 'CommandClass' => ['DbTransport']],
             $container
-                ->getDefinition('messenger_application.command.senders')
+                ->getDefinition('messenger_application.transport.senders')
                 ->getArgument('$locators')
         );
     }

@@ -18,6 +18,9 @@ It also pre-configures several buses:
 - `messenger_application.command.bus` Command bus that takes an `Symfony\Messenger\MessageBusInterface` which can be configured through `services.yaml`, `messenger.yaml`
 - `messenger_application.application_event.bus` Application event bus that takes an `Symfony\Messenger\MessageBusInterface` which can be configured through `services.yaml`, `messenger.yaml`
  
+To use async transport for command or application event buses, you can leverage the `SendMessageMiddleware` configured by the transport config
+- `messenger_application.transport.senders` takes a map of message classes to a list of transports
+
 ### `config/packages/messenger_application.yaml`
 
 The minimal configuration contains services for the command bus and the application event bus (if you want to use them in your application).
@@ -32,7 +35,7 @@ The minimal configuration contains services for the command bus and the applicat
         factory: [CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory, createCallables]
         arguments:
           - !tagged_iterator messenger_application.command.handler
-
+    
     #...
 ```
 
@@ -45,6 +48,7 @@ The minimal configuration contains services for the command bus and the applicat
         default_middleware: false
         middleware:
           - doctrine_transaction
+          - messenger_application.transport.senders
           - command.handler_middleware
 ```
 
@@ -69,6 +73,11 @@ messenger_application:
             - 'app.middleware.some_middleware'
         after_handle:
             - Acme\Middleware\LoggerMiddleware
+
+    # SomeCommand would be sent to DoctrineTransport service
+    transport:
+        senders:
+            Acme\Command\SomeCommand: ['DoctrineTransport']
 ```
 
 ## Usage

@@ -15,7 +15,7 @@
         <service id="CptBurke\Application\SymfonyMessengerBundle\Factory\SenderMiddlewareStackFactory" shared="false"/>
 
         <service
-            id="messenger_application.command.senders"
+            id="messenger_application.transport.senders"
             class="Symfony\Component\Messenger\Middleware\SendMessageMiddleware"
         >
             <factory
