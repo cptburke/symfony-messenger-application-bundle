@@ -12,7 +12,17 @@
         <service id="CptBurke\Application\SymfonyMessengerBundle\Factory\SymfonyMessageBusFactory">
             <argument type="service" id="CptBurke\Application\SymfonyMessengerBundle\Factory\HandlerMiddlewareStackFactory"/>
         </service>
+        <service id="CptBurke\Application\SymfonyMessengerBundle\Factory\SenderMiddlewareStackFactory" shared="false"/>
 
+        <service
+            id="messenger_application.command.senders"
+            class="Symfony\Component\Messenger\Middleware\SendMessageMiddleware"
+        >
+            <factory
+                service="CptBurke\Application\SymfonyMessengerBundle\Factory\SenderMiddlewareStackFactory"
+                method="createFromSenders"
+            />
+        </service>
         <service
                 id="messenger_application.query.internal_bus"
                 class="Symfony\Component\Messenger\MessageBus"
@@ -51,6 +61,11 @@
         <service
                 id="messenger_application.command.bus"
                 class="CptBurke\Application\SymfonyMessenger\Command\MessengerCommandBus"
+                public="true"
+        />
+        <service
+                id="messenger_application.application_event.bus"
+                class="CptBurke\Application\SymfonyMessenger\Event\MessengerApplicationEventBus"
                 public="true"
         />
         <service

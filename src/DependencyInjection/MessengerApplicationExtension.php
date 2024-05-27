@@ -11,6 +11,7 @@ use CptBurke\Application\Command\CommandHandler;
 use CptBurke\Application\Domain\DomainEventSubscriber;
 use CptBurke\Application\Event\ApplicationEventSubscriber;
 use CptBurke\Application\Query\QueryHandler;
+use CptBurke\Application\SymfonyMessengerBundle\Factory\SenderMiddlewareFactory;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -32,7 +33,9 @@ class MessengerApplicationExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
         if (isset($config['command_bus'])) {
             $container->getDefinition('messenger_application.command.bus')
-                ->setArgument('$bus', new Reference($config['command_bus']));
+                ->setArgument('$bus', new Reference($config['command_bus']['bus']));
+            $container->getDefinition('messenger_application.command.senders')
+                ->setArgument('$locators', $config['command_bus']['senders'] ?? []);
         }
         if (isset($config['application_event_bus'])) {
             $container->getDefinition('messenger_application.application_event.bus')
